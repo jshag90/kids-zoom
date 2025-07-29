@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>키즈줌 - 키즈카페 비교 플랫폼</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 50px rgba(0,0,0,0.1);
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .login-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            padding: 0.5rem 1.5rem !important;
+            border-radius: 25px !important;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #FFE0E6, #E0F2F1);
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23FF6B6B" opacity="0.1"/><circle cx="80" cy="20" r="3" fill="%234ECDC4" opacity="0.1"/><circle cx="40" cy="60" r="2" fill="%23FFE66D" opacity="0.1"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #333;
+            margin-bottom: 1rem;
+            animation: slideInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+            animation: slideInUp 1s ease 0.2s both;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Search Bar */
+        .search-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin: 2rem auto;
+            max-width: 800px;
+            animation: slideInUp 1s ease 0.4s both;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group select,
+        .form-group input {
+            padding: 0.8rem;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #4ECDC4;
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: fit-content;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Recommendations Section */
+        .recommendations {
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4);
+            border-radius: 2px;
+        }
+
+        .rec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .rec-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rec-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4);
+        }
+
+        .rec-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+        }
+
+        .rec-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rec-card .emoji {
+            font-size: 1.5rem;
+        }
+
+        /* Popular Cafes */
+        .popular-cafes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .cafe-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .cafe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .cafe-image {
+            height: 150px;
+            background: linear-gradient(135deg, #FFE0E6, #E0F2F1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .cafe-info {
+            padding: 1rem;
+        }
+
+        .cafe-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .cafe-location {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cafe-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stars {
+            color: #FFD700;
+        }
+
+        .rating-text {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #4ECDC4;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #4ECDC4;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #555;
+            padding-top: 1rem;
+            color: #999;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Animation for cards */
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo">
+                <span>🧒</span>
+                <span>키즈줌</span>
+            </div>
+            <div class="nav-links">
+                <a href="#지역별">지역별 검색</a>
+                <a href="#테마별">테마별 보기</a>
+                <a href="#후기">후기 모음</a>
+                <a href="#로그인" class="login-btn">로그인/회원가입</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>우리 아이에게 딱 맞는 키즈카페를 찾아보세요!</h1>
+                <p>전국 키즈카페 정보를 한눈에 비교하고, 실제 후기로 검증된 최고의 놀이공간을 발견하세요</p>
+            </div>
+        </section>
+
+        <!-- Search Container -->
+        <div class="search-container">
+            <form class="search-form">
+                <div class="form-group">
+                    <label for="location">📍 지역</label>
+                    <select id="location">
+                        <option value="">지역을 선택하세요</option>
+                        <option value="서울">서울특별시</option>
+                        <option value="부산">부산광역시</option>
+                        <option value="대구">대구광역시</option>
+                        <option value="인천">인천광역시</option>
+                        <option value="경기">경기도</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="age">👶 연령대</label>
+                    <select id="age">
+                        <option value="">연령을 선택하세요</option>
+                        <option value="0-2">0~2세</option>
+                        <option value="3-5">3~5세</option>
+                        <option value="6+">6세 이상</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="theme">🎨 테마</label>
+                    <select id="theme">
+                        <option value="">테마를 선택하세요</option>
+                        <option value="trampoline">트램펄린</option>
+                        <option value="art">미술놀이</option>
+                        <option value="roleplay">역할놀이</option>
+                        <option value="education">교육형</option>
+                    </select>
+                </div>
+                <button type="button" class="search-btn">🔍 검색</button>
+            </form>
+        </div>
+
+        <!-- Recommendations Section -->
+        <section class="recommendations">
+            <h2 class="section-title">추천 서비스</h2>
+            
+            <div class="rec-grid">
+                <div class="rec-card pulse">
+                    <h3><span class="emoji">🔥</span>인기 키즈카페 TOP 5</h3>
+                    <p>다른 부모들이 가장 많이 선택한 인기 키즈카페를 확인해보세요. 실제 이용 후기와 평점을 바탕으로 선별된 베스트 플레이스입니다.</p>
+                </div>
+                
+                <div class="rec-card">
+                    <h3><span class="emoji">📍</span>내 주변 키즈카페</h3>
+                    <p>GPS를 활용해 현재 위치에서 가까운 키즈카페를 찾아드립니다. 거리순으로 정렬하여 편리하게 방문하세요.</p>
+                </div>
+                
+                <div class="rec-card">
+                    <h3><span class="emoji">🧩</span>테마별 추천</h3>
+                    <p>미술형, 점프형, 역할놀이, 카페형 등 다양한 테마의 키즈카페를 분류해서 우리 아이 취향에 맞는 곳을 선택하세요.</p>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; margin-bottom: 2rem; color: #333;">🏆 이번 주 인기 키즈카페</h3>
+            <div class="popular-cafes">
+                <div class="cafe-card fade-in" onclick="location.href='./detail01.html'" style="cursor: pointer;">
+                    <div class="cafe-image">🎪</div>
+                    <div class="cafe-info">
+                        <div class="cafe-name">키즈파크 강남점</div>
+                        <div class="cafe-location">서울 강남구</div>
+                        <div class="cafe-rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-text">4.8 (124개 후기)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cafe-card fade-in">
+                    <div class="cafe-image">🎨</div>
+                    <div class="cafe-info">
+                        <div class="cafe-name">아트플레이 분당점</div>
+                        <div class="cafe-location">경기 성남시</div>
+                        <div class="cafe-rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-text">4.7 (89개 후기)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cafe-card fade-in">
+                    <div class="cafe-image">🏰</div>
+                    <div class="cafe-info">
+                        <div class="cafe-name">드림캐슬 홍대점</div>
+                        <div class="cafe-location">서울 마포구</div>
+                        <div class="cafe-rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-text">4.6 (156개 후기)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cafe-card fade-in">
+                    <div class="cafe-image">🚗</div>
+                    <div class="cafe-info">
+                        <div class="cafe-name">플레이타운 일산점</div>
+                        <div class="cafe-location">경기 고양시</div>
+                        <div class="cafe-rating">
+                            <span class="stars">⭐⭐⭐⭐</span>
+                            <span class="rating-text">4.5 (203개 후기)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>키즈줌 소개</h4>
+                    <ul>
+                        <li><a href="#">서비스 소개</a></li>
+                        <li><a href="#">이용약관</a></li>
+                        <li><a href="#">개인정보처리방침</a></li>
+                        <li><a href="#">제휴문의</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>고객지원</h4>
+                    <ul>
+                        <li><a href="#">자주묻는질문</a></li>
+                        <li><a href="#">공지사항</a></li>
+                        <li><a href="#">문의하기</a></li>
+                        <li><a href="#">키즈카페 등록</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>연결하기</h4>
+                    <ul>
+                        <li><a href="#">카카오톡 채널</a></li>
+                        <li><a href="#">인스타그램</a></li>
+                        <li><a href="#">네이버 블로그</a></li>
+                        <li><a href="#">유튜브</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 키즈줌(KidsZoom). All rights reserved. | 사업자등록번호: 123-45-67890</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // 카드 애니메이션 효과
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.cafe-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // 검색 버튼 클릭 이벤트
+        document.querySelector('.search-btn').addEventListener('click', function() {
+            const location = document.getElementById('location').value;
+            const age = document.getElementById('age').value;
+            const theme = document.getElementById('theme').value;
+            
+            if (!location || !age) {
+                alert('지역과 연령대를 선택해주세요!');
+                return;
+            }
+            
+            // 검색 결과 페이지로 이동하는 애니메이션
+            this.style.transform = 'scale(0.95)';
+            this.innerHTML = '🔄 검색중...';
+            
+            setTimeout(() => {
+                alert(`검색 조건: ${location}, ${age}${theme ? ', ' + theme : ''}\n검색 결과 페이지로 이동합니다!`);
+                this.innerHTML = '🔍 검색';
+                this.style.transform = 'scale(1)';
+            }, 1000);
+        });
+
+        // 카페 카드 클릭 이벤트
+        document.querySelectorAll('.cafe-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const cafeName = this.querySelector('.cafe-name').textContent;
+                this.style.transform = 'scale(0.98)';
+                
+                setTimeout(() => {
+                    alert(`${cafeName} 상세 페이지로 이동합니다!`);
+                    this.style.transform = 'scale(1)';
+                }, 200);
+            });
+        });
+
+        // 부드러운 스크롤 효과
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

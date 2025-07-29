@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>키즈파크 강남점 - 키즈줌</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+        }
+
+        .breadcrumb a:hover {
+            opacity: 1;
+        }
+
+        /* Header Section */
+        .cafe-header {
+            background: linear-gradient(135deg, #FFE0E6, #E0F2F1);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cafe-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="%23FF6B6B" opacity="0.1"/><circle cx="70" cy="30" r="15" fill="%234ECDC4" opacity="0.1"/></svg>');
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header-content {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 2rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cafe-icon {
+            font-size: 4rem;
+            background: white;
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .cafe-title {
+            flex: 1;
+        }
+
+        .cafe-title h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .cafe-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .rating-summary {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .rating-score {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .stars-large {
+            color: #FFD700;
+            font-size: 1.5rem;
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+        }
+
+        .secondary-btn {
+            background: white;
+            color: #333;
+            border: 2px solid #4ECDC4;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .heart-btn {
+            background: #FFE6E6;
+            color: #FF6B6B;
+            border: 2px solid #FF6B6B;
+        }
+
+        .heart-btn.liked {
+            background: #FF6B6B;
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .main-image {
+            height: 300px;
+            background: linear-gradient(135deg, #FFE0E6, #E0F2F1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .thumbnail-row {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        .thumbnail {
+            min-width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #F0F0F0, #E0E0E0);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .thumbnail:hover {
+            transform: scale(1.1);
+        }
+
+        /* Info Section */
+        .info-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .info-section h3 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .info-icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            color: #666;
+        }
+
+        /* Facilities */
+        .facilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .facility-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .facility-card:hover {
+            background: #4ECDC4;
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .facility-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Pricing Table */
+        .pricing-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .pricing-header {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .pricing-body {
+            padding: 1.5rem;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .price-item:last-child {
+            border-bottom: none;
+        }
+
+        .price-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .price-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4ECDC4;
+        }
+
+        /* Reviews Preview */
+        .reviews-preview {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .view-all-btn {
+            background: #4ECDC4;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .view-all-btn:hover {
+            background: #45B7B8;
+            transform: translateY(-2px);
+        }
+
+        .review-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .review-item:hover {
+            background: #e9ecef;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .review-date {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .review-rating {
+            color: #FFD700;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-text {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: #4ECDC4;
+            min-width: 30px;
+        }
+
+        .contact-link {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: #4ECDC4;
+        }
+
+        /* Map Container */
+        .map-container {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            height: 300px;
+            position: relative;
+        }
+
+        .map-placeholder {
+            height: 100%;
+            background: linear-gradient(135deg, #E8F5E8, #E0F2F1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #4ECDC4;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .map-placeholder:hover {
+            background: linear-gradient(135deg, #D4F4D4, #C8F0E8);
+        }
+
+        .map-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .cafe-title h1 {
+                font-size: 2rem;
+            }
+            
+            .facilities-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo" onclick="goHome()">
+                <span>🧒</span>
+                <span>키즈줌</span>
+            </div>
+            <div class="breadcrumb">
+                <a href="#" onclick="goHome()">홈</a>
+                <span>></span>
+                <a href="#">서울</a>
+                <span>></span>
+                <span>키즈파크 강남점</span>
+            </div>
+        </nav>
+
+        <!-- Cafe Header -->
+        <section class="cafe-header">
+            <div class="header-content">
+                <div class="cafe-icon float">🎪</div>
+                <div class="cafe-title">
+                    <h1>키즈파크 강남점</h1>
+                    <div class="cafe-subtitle">🏢 서울 강남구 테헤란로 123길 45 (대치동) 스카이빌딩 3층</div>
+                    <div class="rating-summary">
+                        <div class="rating-score">
+                            <span class="stars-large">⭐⭐⭐⭐⭐</span>
+                            <span><strong>4.8</strong></span>
+                        </div>
+                        <span>|</span>
+                        <span>리뷰 124개</span>
+                        <span>|</span>
+                        <span>찜 892명</span>
+                    </div>
+                </div>
+                <div class="quick-actions">
+                    <button class="action-btn primary-btn">
+                        <span>📞</span> 전화 문의
+                    </button>
+                    <button class="action-btn secondary-btn">
+                        <span>📅</span> 예약하기
+                    </button>
+                    <button class="action-btn heart-btn" onclick="toggleHeart(this)">
+                        <span>🤍</span> 찜하기
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Image Gallery -->
+                <div class="image-gallery fade-in">
+                    <div class="main-image" onclick="openImageViewer()">
+                        🎪
+                        <div class="image-overlay">📷 사진 12장 보기</div>
+                    </div>
+                    <div class="thumbnail-row">
+                        <div class="thumbnail">🎨</div>
+                        <div class="thumbnail">🏰</div>
+                        <div class="thumbnail">🎮</div>
+                        <div class="thumbnail">🧸</div>
+                        <div class="thumbnail">🎯</div>
+                    </div>
+                </div>
+
+                <!-- Basic Info -->
+                <div class="info-section fade-in">
+                    <h3><span>ℹ️</span> 기본 정보</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon">🕐</div>
+                            <div class="info-content">
+                                <div class="info-label">운영시간</div>
+                                <div class="info-value">평일 10:00-20:00 | 주말 09:00-21:00</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">🚫</div>
+                            <div class="info-content">
+                                <div class="info-label">휴무일</div>
+                                <div class="info-value">매월 둘째, 넷째 화요일</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">👶</div>
+                            <div class="info-content">
+                                <div class="info-label">이용 연령</div>
+                                <div class="info-value">12개월 - 7세 (부모 동반 필수)</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📏</div>
+                            <div class="info-content">
+                                <div class="info-label">공간 크기</div>
+                                <div class="info-value">총 면적 200평 (놀이공간 150평)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Facilities -->
+                <div class="info-section fade-in">
+                    <h3><span>🛝</span> 주요 시설</h3>
+                    <div class="facilities-grid">
+                        <div class="facility-card">
+                            <div class="facility-icon">🎪</div>
+                            <div>대형 놀이기구</div>
+                        </div>
+                        <div class="facility-card">
+                            <div class="facility-icon">🎨</div>
+                            <div>미술놀이방</div>
+                        </div>
+                        <div class="facility-card">
+                            <div class="facility-icon">🏰</div>
+                            <div>역할놀이존</div>
+                        </div>
+                        <div class="facility-card">
+                            <div class="facility-icon">🧸</div>
+                            <div>유아 전용구역</div>
+                        </div>
+                        <div class="facility-card">
+                            <div class="facility-icon">☕</div>
+                            <div>카페존</div>
+                        </div>
+                        <div class="facility-card">
+                            <div class="facility-icon">🚻</div>
+                            <div>수유실/기저귀방</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reviews Preview -->
+                <div class="reviews-preview fade-in">
+                    <div class="reviews-header">
+                        <h3><span>📝</span> 후기 미리보기</h3>
+                        <button class="view-all-btn" onclick="viewAllReviews()">전체 리뷰 보기 (124개)</button>
+                    </div>
+                    
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="reviewer-name">김**님</span>
+                            <span class="review-date">2024.01.15</span>
+                        </div>
+                        <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="review-text">5살 아이와 다녀왔는데 정말 만족스러웠어요! 시설이 깨끗하고 직원분들도 친절하시고, 특히 역할놀이존에서 아이가 너무 좋아했습니다. 카페 음료도 맛있고 가격도 합리적이에요.</div>
+                    </div>
+                    
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="reviewer-name">이**님</span>
+                            <span class="review-date">2024.01.12</span>
+                        </div>
+                        <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="review-text">주차가 편리하고 시설이 정말 좋네요. 3세 아이도 안전하게 놀 수 있어서 안심됩니다. 수유실도 깔끔하게 잘 되어있어요.</div>
+                    </div>
+                    
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="reviewer-name">박**님</span>
+                            <span class="review-date">2024.01.10</span>
+                        </div>
+                        <div class="review-rating">⭐⭐⭐⭐</div>
+                        <div class="review-text">아이들이 정말 좋아해요. 다만 주말에는 좀 붐비니까 평일에 가시는 걸 추천드려요!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- Pricing -->
+                <div class="pricing-table fade-in">
+                    <div class="pricing-header">
+                        <h3><span>💳</span> 이용 요금</h3>
+                    </div>
+                    <div class="pricing-body">
+                        <div class="price-item">
+                            <span class="price-name">2시간 이용권</span>
+                            <span class="price-value">15,000원</span>
+                        </div>
+                        <div class="price-item">
+                            <span class="price-name">종일권 (평일)</span>
+                            <span class="price-value">25,000원</span>
+                        </div>
+                        <div class="price-item">
+                            <span class="price-name">종일권 (주말)</span>
+                            <span class="price-value">30,000원</span>
+                        </div>
+                        <div class="price-item">
+                            <span class="price-name">정기권 (10회)</span>
+                            <span class="price-value">120,000원</span>
+                        </div>
+                        <div class="price-item">
+                            <span class="price-name">보호자 입장료</span>
+                            <span class="price-value">무료</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="contact-info fade-in">
+                    <h3><span>📞</span> 연락처 정보</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <a href="tel:02-1234-5678" class="contact-link">02-1234-5678</a>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🌐</div>
+                        <a href="#" class="contact-link">www.kidspark-gangnam.co.kr</a>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <a href="mailto:info@kidspark.co.kr" class="contact-link">info@kidspark.co.kr</a>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <a href="#" class="contact-link">카카오톡 채널</a>
+                    </div>
+                </div>
+
+                <!-- Map -->
+                <div class="map-container fade-in">
+                    <div class="map-placeholder" onclick="openMap()">
+                        <div class="map-icon">🗺️</div>
+                        <div>지도에서 위치 보기</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem;">서울 강남구 테헤란로 123길 45</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 페이지 로드 시 애니메이션
+        window.addEventListener('load', function() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+
+        // 찜하기 토글
+        function toggleHeart(btn) {
+            const heartSpan = btn.querySelector('span');
+            if (btn.classList.contains('liked')) {
+                btn.classList.remove('liked');
+                heartSpan.textContent = '🤍';
+                btn.innerHTML = '<span>🤍</span> 찜하기';
+                showNotification('찜 목록에서 제거되었습니다', 'info');
+            } else {
+                btn.classList.add('liked');
+                heartSpan.textContent = '❤️';
+                btn.innerHTML = '<span>❤️</span> 찜 완료';
+                showNotification('찜 목록에 추가되었습니다!', 'success');
+            }
+        }
+
+        // 홈으로 이동
+        function goHome() {
+            showNotification('홈페이지로 이동합니다', 'info');
+        }
+
+        // 이미지 뷰어 열기
+        function openImageViewer() {
+            showNotification('이미지 갤러리를 여는 중...', 'info');
+        }
+
+        // 전체 리뷰 보기
+        function viewAllReviews() {
+            showNotification('전체 리뷰 페이지로 이동합니다', 'info');
+        }
+
+        // 지도 열기
+        function openMap() {
+            showNotification('카카오맵으로 연결됩니다', 'info');
+        }
+
+        // 알림 표시 함수
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#4ECDC4' : type === 'error' ? '#FF6B6B' : '#333'};
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+                z-index: 1000;
+                animation: slideInRight 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            },

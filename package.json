@@ -1,0 +1,7 @@
+{
+  "homepage": "https://jshag90.github.io/kids-zoom/",
+  "script": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  }
+}
