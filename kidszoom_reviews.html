@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>키즈줌 - 후기 모음</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            text-decoration: none;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .login-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            padding: 0.5rem 1.5rem !important;
+            border-radius: 25px !important;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #ffe0e6, #e0f2f1);
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23FF6B6B" opacity="0.1"/><circle cx="80" cy="20" r="3" fill="%234ECDC4" opacity="0.1"/><circle cx="40" cy="60" r="2" fill="%23FFE66D" opacity="0.1"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+            animation: slideInUp 1s ease;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: #666;
+            animation: slideInUp 1s ease 0.2s both;
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 2rem;
+            background: white;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8f9ff, #fff8f8);
+            border-radius: 15px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            padding: 2rem;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .filter-container {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            min-width: 150px;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .filter-group select {
+            padding: 0.7rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+        }
+
+        .sort-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .sort-btn {
+            padding: 0.7rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .sort-btn:hover, .sort-btn.active {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            padding: 2rem;
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .reviews-count {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .write-review-btn {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .write-review-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Review Cards */
+        .reviews-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .review-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .review-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            border-left-color: #4ecdc4;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .review-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .user-info h4 {
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+
+        .user-info .visit-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .review-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stars {
+            color: #ffd700;
+            font-size: 1.1rem;
+        }
+
+        .rating-number {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .cafe-info {
+            background: #f8f9ff;
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 3px solid #4ecdc4;
+        }
+
+        .cafe-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+
+        .cafe-location {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .review-content {
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .review-images {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            overflow-x: auto;
+        }
+
+        .review-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ffe0e6, #e0f2f1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .review-image:hover {
+            transform: scale(1.05);
+        }
+
+        .review-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .review-meta {
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.3rem 0.5rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .action-btn:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .action-btn.liked {
+            color: #ff6b6b;
+            background: #fff0f0;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+            padding: 2rem 0;
+        }
+
+        .page-btn {
+            padding: 0.7rem 1rem;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .page-btn:hover, .page-btn.active {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border-color: transparent;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                min-width: auto;
+            }
+
+            .sort-buttons {
+                margin-left: 0;
+                margin-top: 1rem;
+                justify-content: center;
+            }
+
+            .reviews-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid #4ecdc4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Featured Review */
+        .featured-review {
+            background: linear-gradient(135deg, #fff8dc, #f0f8ff);
+            border: 2px solid #4ecdc4;
+            position: relative;
+        }
+
+        .featured-review::before {
+            content: "👑 베스트 후기";
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <a href="./index.html" class="logo">
+                <span>🧒</span>
+                <span>키즈줌</span>
+            </a>
+            <div class="nav-links">
+                <a href="./location-search.html">지역별 검색</a>
+                <a href="./theme-page.html">테마별 보기</a>
+                <a href="#후기" class="active">후기 모음</a>
+                <a href="#로그인" class="login-btn">로그인/회원가입</a>
+            </div>
+        </nav>
+
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="page-header-content">
+                <h1>🌟 키즈카페 후기 모음</h1>
+                <p>실제 이용객들이 남긴 생생한 후기를 확인하고, 우리 아이에게 맞는 키즈카페를 찾아보세요</p>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">2,847</div>
+                    <div class="stat-label">전체 후기</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4.6</div>
+                    <div class="stat-label">평균 평점</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">등록된 키즈카페</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">89%</div>
+                    <div class="stat-label">만족도</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter Section -->
+        <section class="filter-section">
+            <div class="filter-container">
+                <div class="filter-group">
+                    <label for="region-filter">📍 지역</label>
+                    <select id="region-filter">
+                        <option value="">전체 지역</option>
+                        <option value="서울">서울특별시</option>
+                        <option value="부산">부산광역시</option>
+                        <option value="경기">경기도</option>
+                        <option value="인천">인천광역시</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="rating-filter">⭐ 평점</label>
+                    <select id="rating-filter">
+                        <option value="">전체</option>
+                        <option value="5">5점</option>
+                        <option value="4">4점 이상</option>
+                        <option value="3">3점 이상</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="theme-filter">🎨 테마</label>
+                    <select id="theme-filter">
+                        <option value="">전체 테마</option>
+                        <option value="trampoline">트램펄린</option>
+                        <option value="art">미술놀이</option>
+                        <option value="roleplay">역할놀이</option>
+                        <option value="education">교육형</option>
+                    </select>
+                </div>
+                <div class="sort-buttons">
+                    <button class="sort-btn active" data-sort="latest">최신순</button>
+                    <button class="sort-btn" data-sort="rating">별점순</button>
+                    <button class="sort-btn" data-sort="helpful">도움순</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section class="reviews-section">
+            <div class="reviews-header">
+                <div class="reviews-count">총 <strong>2,847</strong>개의 후기</div>
+                <a href="#write-review" class="write-review-btn">✍️ 후기 작성하기</a>
+            </div>
+
+            <div class="reviews-grid" id="reviews-container">
+                <!-- Featured Review -->
+                <div class="review-card featured-review">
+                    <div class="review-header">
+                        <div class="review-user">
+                            <div class="user-avatar">김</div>
+                            <div class="user-info">
+                                <h4>김민주님</h4>
+                                <div class="visit-date">2024.01.15 방문</div>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-number">5.0</span>
+                        </div>
+                    </div>
+                    <div class="cafe-info">
+                        <div class="cafe-name">키즈파크 강남점</div>
+                        <div class="cafe-location">서울 강남구 테헤란로</div>
+                    </div>
+                    <div class="review-content">
+                        5세 아들과 함께 방문했는데 정말 만족스러웠어요! 트램펄린 시설이 정말 깨끗하고 안전하게 관리되고 있더라고요. 직원분들도 아이들을 잘 챙겨주시고, 부모 휴게공간도 편안해서 커피 마시며 쉴 수 있었습니다. 특히 신발 정리함과 사물함이 잘 되어있어서 깔끔했어요. 아이가 너무 즐거워해서 다음에 또 올 예정입니다!
+                    </div>
+                    <div class="review-images">
+                        <div class="review-image">🎪</div>
+                        <div class="review-image">🤸</div>
+                        <div class="review-image">☕</div>
+                    </div>
+                    <div class="review-actions">
+                        <div class="review-meta">1시간 전 • 조회 245</div>
+                        <div class="action-buttons">
+                            <button class="action-btn liked">
+                                <span>👍</span>
+                                <span>34</span>
+                            </button>
+                            <button class="action-btn">
+                                <span>💬</span>
+                                <span>12</span>
+                            </button>
+                            <button class="action-btn">
+                                <span>🚨</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Regular Reviews -->
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-user">
+                            <div class="user-avatar">박</div>
+                            <div class="user-info">
+                                <h4>박서연님</h4>
+                                <div class="visit-date">2024.01.12 방문</div>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <span class="stars">⭐⭐⭐⭐</span>
+                            <span class="rating-number">4.0</span>
+                        </div>
+                    </div>
+                    <div class="cafe-info">
+                        <div class="cafe-name">아트플레이 분당점</div>
+                        <div class="cafe-location">경기 성남시 분당구</div>
+                    </div>
+                    <div class="review-content">
+                        3세 딸아이와 함께 다녀왔어요. 미술놀이 시설이 정말 좋더라고요! 다양한 재료들이 준비되어 있고, 선생님이 친절하게 도와주셔서 아이가 작품을 완성할 수 있었습니다. 다만 주말이라 조금 복잡했고, 주차공간이 부족해서 아쉬웠어요.
+                    </div>
+                    <div class="review-images">
+                        <div class="review-image">🎨</div>
+                        <div class="review-image">🖌️</div>
+                    </div>
+                    <div class="review-actions">
+                        <div class="review-meta">3시간 전 • 조회 89</div>
+                        <div class="action-buttons">
+                            <button class="action-btn">
+                                <span>👍</span>
+                                <span>12</span>
+                            </button>
+                            <button class="action-btn">
+                                <span>💬</span>
+                                <span>5</span>
+                            </button>
+                            <button class="action-btn">
+                                <span>🚨</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-user">
+                            <div class="user-avatar">이</div>
+                            <div class="user-info">
+                                <h4>이지현님</h4>
+                                <div class="visit-date">2024.01.10 방문</div>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-number">5.0</span>
+                        </div>
+                    </div>
+                    <div class="cafe-info">
+                        <div class="cafe-name">드림캐슬 홍대점</div>
+                        <div class="cafe-location">서울 마포구 홍익로</div>
+                    </div>
+                    <div class="review-content">
+                        6세, 4세 두 아이와 함께 방문했는데 두 아이 모두 연령대에 맞게 놀 수 있어서 좋았어요. 역할놀이 공간이 특히 인상적이었습니다. 의사놀이, 요리놀이 등 다양한 테마가 있어서 아이들이 지루해하지 않더라고요. 청결도도 만족스럽고 가격도 합리적이에요!
+                    </div>
+                    <div class="review-images">
+                        <div class="review-image">🏰</div>
+                        <div class="review-image">👨‍⚕️</div>
+                        <div class="review-image">👩‍🍳</div>
+                    </div>
+                    <div class="review-actions">
+                        <div class="review-meta">1일 전 • 조회 156</div>
+                        <div class="action-buttons">
+                            <button class="action-btn">
+                                <span>👍</span>
+                                <span>28</span>
+                            </button>
+                            <button class="action-btn">
+                                <span>💬</span>
+                                <span>8</span>
+                            </button>
+                            <button class="action-btn">
+                                <span>🚨</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-user">
+                            <div class="user-avatar">최</div>
+                            <div class="user-info">
+                                <h4>최하늘님</h4>
+                                <div class="visit-date">2024.01.08 방문</div>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <span class="stars">⭐⭐⭐</span>
+                            <span class="rating-number">3.0</span>
+                        </div>
+                    </div>
+                    <div class="cafe-info">
+                        <div class="cafe-name">플레이타운 일산점</div>
+                        <div class="cafe-location">경기 고양시 일산서구</div>
+                    </div>
+                    <div class="review-content">
+                        시설은 나쁘지 않은데 관리가 아쉬워요. 일부 놀이기구에서 소음이 많이 나고, 청소가 좀 더 철저했으면 좋겠습니다. 직원분들은 친절하시지만 아이들 안전 관리에 더 신경써주셨으면 해요. 그래도 아이는 재미있게 놀았습니다.
+                    </div>
+                    <div class="review-images">
+                        <div class="review-image">🚗</div>
+                    </div>
+                    <div class="review-actions">
+                        <div class="review-meta">2일 전 • 조회 67</div>
+                        <div class="action-buttons">
+                            <button class="action-btn">
+                                <span>👍</span>
+                                <span>5</span>
+                            </button>
+                            <button class="action-btn">
+                                <span>💬</span>
+                                <span>3</span>
+                            </button>
+                            <button class="action-btn">
+                                <span>🚨</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn" disabled>‹‹</button>
+                <button class="page-btn" disabled>

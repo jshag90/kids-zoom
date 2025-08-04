@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>키즈줌 - 테마별 키즈카페 찾기</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        min-height: 100vh;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Navigation - 홈페이지와 동일 */
+      .navbar {
+        background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo {
+        text-decoration: none;
+        font-size: 2rem;
+        font-weight: bold;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .login-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid white;
+        padding: 0.5rem 1.5rem !important;
+        border-radius: 25px !important;
+      }
+
+      /* Page Header */
+      .page-header {
+        background: linear-gradient(135deg, #ffe0e6, #e0f2f1);
+        padding: 3rem 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page-header::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23FF6B6B" opacity="0.1"/><circle cx="80" cy="20" r="3" fill="%234ECDC4" opacity="0.1"/><circle cx="40" cy="60" r="2" fill="%23FFE66D" opacity="0.1"/></svg>');
+        animation: float 20s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(180deg);
+        }
+      }
+
+      .page-header-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .page-header h1 {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 1rem;
+        animation: slideInUp 1s ease;
+      }
+
+      .page-header p {
+        font-size: 1.1rem;
+        color: #666;
+        animation: slideInUp 1s ease 0.2s both;
+      }
+
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Main Content */
+      .main-content {
+        padding: 3rem 2rem;
+      }
+
+      /* Filter Bar */
+      .filter-bar {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        margin-bottom: 3rem;
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .filter-btn {
+        padding: 0.8rem 1.5rem;
+        border: 2px solid #e0e0e0;
+        background: white;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        color: #666;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+        color: white;
+        border-color: transparent;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Theme Grid */
+      .theme-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .theme-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s ease;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .theme-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      .theme-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: var(--theme-color);
+      }
+
+      .theme-header {
+        padding: 2rem;
+        background: var(--theme-bg);
+        text-align: center;
+        position: relative;
+      }
+
+      .theme-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        display: block;
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+
+      .theme-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+
+      .theme-subtitle {
+        color: #666;
+        font-size: 0.95rem;
+      }
+
+      .theme-content {
+        padding: 1.5rem 2rem;
+      }
+
+      .theme-description {
+        color: #555;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .theme-features {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .feature-tag {
+        background: var(--theme-light);
+        color: var(--theme-dark);
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .theme-stats {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 1rem;
+        border-top: 1px solid #f0f0f0;
+      }
+
+      .cafe-count {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .view-all-btn {
+        background: var(--theme-color);
+        color: white;
+        padding: 0.5rem 1.2rem;
+        border: none;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .view-all-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Theme Color Variables */
+      .trampoline {
+        --theme-color: #ff6b6b;
+        --theme-bg: #fff5f5;
+        --theme-light: #ffe0e0;
+        --theme-dark: #cc5555;
+      }
+      .art {
+        --theme-color: #4ecdc4;
+        --theme-bg: #f0fffe;
+        --theme-light: #e0f7f7;
+        --theme-dark: #3ea39c;
+      }
+      .roleplay {
+        --theme-color: #ffe66d;
+        --theme-bg: #fffdf0;
+        --theme-light: #fff9d6;
+        --theme-dark: #ccb857;
+      }
+      .education {
+        --theme-color: #a8e6cf;
+        --theme-bg: #f8fdf9;
+        --theme-light: #e8f5ed;
+        --theme-dark: #86b8a5;
+      }
+      .water {
+        --theme-color: #74b9ff;
+        --theme-bg: #f0f8ff;
+        --theme-light: #e3f2fd;
+        --theme-dark: #5c94cc;
+      }
+      .cafe {
+        --theme-color: #fd79a8;
+        --theme-bg: #fef7f9;
+        --theme-light: #fce4ec;
+        --theme-dark: #ca6186;
+      }
+
+      /* Special Cards */
+      .featured-section {
+        margin: 4rem 0;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 2rem;
+        position: relative;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+        border-radius: 2px;
+      }
+
+      .trending-themes {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .trending-card {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .trending-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 100px;
+        height: 100px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .trending-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .trending-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .trending-subtitle {
+        opacity: 0.8;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .page-header h1 {
+          font-size: 2rem;
+        }
+
+        .navbar {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .nav-links {
+          flex-wrap: wrap;
+        }
+
+        .filter-bar {
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .theme-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .theme-header {
+          padding: 1.5rem;
+        }
+
+        .theme-icon {
+          font-size: 3rem;
+        }
+      }
+
+      /* Loading Animation */
+      .loading {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s ease forwards;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Navigation -->
+      <nav class="navbar">
+        <a href="./" class="logo">
+          <span>🧒</span>
+          <span>키즈줌</span>
+        </a>
+        <div class="nav-links">
+          <a href="./location-search.html">지역별 검색</a>
+          <a href="./theme-page.html">테마별 보기</a>
+          <a href="./kidszoom_reviews.html">후기 모음</a>
+          <a href="#로그인" class="login-btn">로그인/회원가입</a>
+        </div>
+      </nav>
+
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="page-header-content">
+          <h1>🎨 테마별 키즈카페 찾기</h1>
+          <p>우리 아이 취향에 딱 맞는 테마의 키즈카페를 찾아보세요!</p>
+        </div>
+      </section>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter="all">전체보기</button>
+          <button class="filter-btn" data-filter="popular">인기순</button>
+          <button class="filter-btn" data-filter="new">신규</button>
+          <button class="filter-btn" data-filter="nearby">내 주변</button>
+        </div>
+
+        <!-- Theme Grid -->
+        <div class="theme-grid">
+          <!-- 트램펄린 테마 -->
+          <div
+            class="theme-card trampoline loading"
+            style="animation-delay: 0.1s"
+          >
+            <div class="theme-header">
+              <span class="theme-icon">🤸‍♀️</span>
+              <h3 class="theme-title">트램펄린 & 점프존</h3>
+              <p class="theme-subtitle">에너지 발산! 신나는 점프 놀이</p>
+            </div>
+            <div class="theme-content">
+              <p class="theme-description">
+                아이들이 마음껏 뛰어놀 수 있는 트램펄린과 다양한 점프 시설이
+                갖춰진 키즈카페예요. 체력 소모가 많아 집에서 잠들기 쉬워서
+                부모님들께 인기가 높아요!
+              </p>
+              <div class="theme-features">
+                <span class="feature-tag">대형 트램펄린</span>
+                <span class="feature-tag">폼블럭</span>
+                <span class="feature-tag">농구대</span>
+                <span class="feature-tag">체력소모</span>
+              </div>
+              <div class="theme-stats">
+                <span class="cafe-count">🏢 32개 매장</span>
+                <button class="view-all-btn">전체보기 →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 미술놀이 테마 -->
+          <div class="theme-card art loading" style="animation-delay: 0.2s">
+            <div class="theme-header">
+              <span class="theme-icon">🎨</span>
+              <h3 class="theme-title">아트 & 만들기</h3>
+              <p class="theme-subtitle">창의력 쑥쑥! 예술 감성 키우기</p>
+            </div>
+            <div class="theme-content">
+              <p class="theme-description">
+                그림 그리기, 만들기 활동을 통해 아이의 창의력과 집중력을 기를 수
+                있어요. 조용한 분위기에서 부모와 함께 시간을 보내기 좋은
+                공간입니다.
+              </p>
+              <div class="theme-features">
+                <span class="feature-tag">미술도구</span>
+                <span class="feature-tag">클레이</span>
+                <span class="feature-tag">만들기키트</span>
+                <span class="feature-tag">창의력개발</span>
+              </div>
+              <div class="theme-stats">
+                <span class="cafe-count">🏢 28개 매장</span>
+                <button class="view-all-btn">전체보기 →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 역할놀이 테마 -->
+          <div
+            class="theme-card roleplay loading"
+            style="animation-delay: 0.3s"
+          >
+            <div class="theme-header">
+              <span class="theme-icon">👨‍🍳</span>
+              <h3 class="theme-title">역할놀이 & 직업체험</h3>
+              <p class="theme-subtitle">꿈을 키워요! 다양한 직업 체험</p>
+            </div>
+            <div class="theme-content">
+              <p class="theme-description">
+                요리사, 의사, 경찰관 등 다양한 직업을 체험하며 사회성과 상상력을
+                기를 수 있어요. 또래 친구들과 함께 협동하며 놀 수 있는 최고의
+                공간입니다.
+              </p>
+              <div class="theme-features">
+                <span class="feature-tag">직업체험</span>
+                <span class="feature-tag">요리놀이</span>
+                <span class="feature-tag">병원놀이</span>
+                <span class="feature-tag">마트놀이</span>
+              </div>
+              <div class="theme-stats">
+                <span class="cafe-count">🏢 24개 매장</span>
+                <button class="view-all-btn">전체보기 →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 교육형 테마 -->
+          <div
+            class="theme-card education loading"
+            style="animation-delay: 0.4s"
+          >
+            <div class="theme-header">
+              <span class="theme-icon">📚</span>
+              <h3 class="theme-title">교육 & 학습놀이</h3>
+              <p class="theme-subtitle">재미있게 배워요! 놀이로 배우는 학습</p>
+            </div>
+            <div class="theme-content">
+              <p class="theme-description">
+                숫자, 글자, 영어 등을 재미있는 놀이로 배울 수 있는 교육형
+                키즈카페예요. 학습 욕구가 많은 아이들에게 딱 맞는 공간입니다.
+              </p>
+              <div class="theme-features">
+                <span class="feature-tag">학습교구</span>
+                <span class="feature-tag">영어놀이</span>
+                <span class="feature-tag">수학놀이</span>
+                <span class="feature-tag">독서공간</span>
+              </div>
+              <div class="theme-stats">
+                <span class="cafe-count">🏢 19개 매장</span>
+                <button class="view-all-btn">전체보기 →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 물놀이 테마 -->
+          <div class="theme-card water loading" style="animation-delay: 0.5s">
+            <div class="theme-header">
+              <span class="theme-icon">💧</span>
+              <h3 class="theme-title">물놀이 & 스플래시</h3>
+              <p class="theme-subtitle">시원하게! 안전한 실내 물놀이</p>
+            </div>
+            <div class="theme-content">
+              <p class="theme-description">
+                실내에서 안전하게 물놀이를 즐길 수 있는 키즈카페예요. 계절에
+                상관없이 아이들이 물놀이를 좋아한다면 최고의 선택입니다.
+              </p>
+              <div class="theme-features">
+                <span class="feature-tag">미니풀장</span>
+                <span class="feature-tag">물총놀이</span>
+                <span class="feature-tag">물감싸기</span>
+                <span class="feature-tag">온수시설</span>
+              </div>
+              <div class="theme-stats">
+                <span class="cafe-count">🏢 15개 매장</span>
+                <button class="view-all-btn">전체보기 →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 카페형 테마 -->
+          <div class="theme-card cafe loading" style="animation-delay: 0.6s">
+            <div class="theme-header">
+              <span class="theme-icon">☕</span>
+              <h3 class="theme-title">카페형 & 휴식공간</h3>
+              <p class="theme-subtitle">여유로운 시간! 부모님 휴식 공간</p>
+            </div>
+            <div class="theme-content">
+              <p class="theme-description">
+                아이들은 안전하게 놀고, 부모님은 편안히 커피를 마시며 휴식할 수
+                있는 공간이에요. 맛있는 음료와 간식도 함께 즐길 수 있습니다.
+              </p>
+              <div class="theme-features">
+                <span class="feature-tag">프리미엄커피</span>
+                <span class="feature-tag">간식메뉴</span>
+                <span class="feature-tag">편안한소파</span>
+                <span class="feature-tag">와이파이</span>
+              </div>
+              <div class="theme-stats">
+                <span class="cafe-count">🏢 41개 매장</span>
+                <button class="view-all-btn">전체보기 →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Section -->
+        <div class="featured-section">
+          <h2 class="section-title">🔥 이번 달 인기 테마</h2>
+          <div class="trending-themes">
+            <div class="trending-card">
+              <div class="trending-icon">🏃‍♂️</div>
+              <h4 class="trending-title">실외 놀이형</h4>
+              <p class="trending-subtitle">야외 활동과 모험 놀이</p>
+            </div>
+            <div class="trending-card">
+              <div class="trending-icon">🎵</div>
+              <h4 class="trending-title">음악 & 댄스</h4>
+              <p class="trending-subtitle">리듬감과 표현력 키우기</p>
+            </div>
+            <div class="trending-card">
+              <div class="trending-icon">🧩</div>
+              <h4 class="trending-title">퍼즐 & 게임</h4>
+              <p class="trending-subtitle">사고력과 집중력 향상</p>
+            </div>
+            <div class="trending-card">
+              <div class="trending-icon">🚗</div>
+              <h4 class="trending-title">자동차 & 레이싱</h4>
+              <p class="trending-subtitle">미니카와 레이싱 체험</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 페이지 로드 시 애니메이션
+      document.addEventListener("DOMContentLoaded", function () {
+        const loadingElements = document.querySelectorAll(".loading");
+        loadingElements.forEach((el, index) => {
+          setTimeout(() => {
+            el.style.opacity = "1";
+            el.style.transform = "translateY(0)";
+          }, index * 100);
+        });
+      });
+
+      // 필터 버튼 기능
+      const filterBtns = document.querySelectorAll(".filter-btn");
+      const themeCards = document.querySelectorAll(".theme-card");
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          // 활성 버튼 변경
+          filterBtns.forEach((b) => b.classList.remove("active"));
+          this.classList.add("active");
+
+          // 필터링 애니메이션 (시연용)
+          const filter = this.dataset.filter;
+          themeCards.forEach((card, index) => {
+            card.style.opacity = "0.5";
+            card.style.transform = "scale(0.95)";
+
+            setTimeout(() => {
+              card.style.opacity = "1";
+              card.style.transform = "scale(1)";
+            }, index * 50 + 300);
+          });
+
+          // 필터 적용 메시지
+          setTimeout(() => {
+            if (filter !== "all") {
+              alert(`${this.textContent} 필터가 적용되었습니다!`);
+            }
+          }, 500);
+        });
+      });
+
+      // 테마 카드 클릭 이벤트
+      themeCards.forEach((card) => {
+        card.addEventListener("click", function () {
+          const themeName = this.querySelector(".theme-title").textContent;
+
+          // 클릭 애니메이션
+          this.style.transform = "scale(0.98)";
+          setTimeout(() => {
+            this.style.transform = "scale(1)";
+          }, 200);
+
+          // 테마별 상세 페이지로 이동 (시연용)
+          setTimeout(() => {
+            alert(`${themeName} 키즈카페 목록으로 이동합니다!`);
+          }, 300);
+        });
+      });
+
+      // 전체보기 버튼 이벤트
+      const viewAllBtns = document.querySelectorAll(".view-all-btn");
+      viewAllBtns.forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+
+          const themeName =
+            this.closest(".theme-card").querySelector(
+              ".theme-title"
+            ).textContent;
+          this.style.transform = "scale(0.95)";
+
+          setTimeout(() => {
+            this.style.transform = "scale(1)";
+            alert(`${themeName} 전체 목록을 확인하시겠습니까?`);
+          }, 200);
+        });
+      });
+
+      // 트렌딩 카드 호버 효과
+      const trendingCards = document.querySelectorAll(".trending-card");
+      trendingCards.forEach((card) => {
+        card.addEventListener("mouseenter", function () {
+          this.style.transform = "scale(1.05) rotateY(5deg)";
+        });
+
+        card.addEventListener("mouseleave", function () {
+          this.style.transform = "scale(1) rotateY(0deg)";
+        });
+
+        card.addEventListener("click", function () {
+          const themeName = this.querySelector(".trending-title").textContent;
+          alert(`${themeName} 테마는 곧 오픈 예정입니다! 💫`);
+        });
+      });
+
+      // 스크롤 이벤트로 추가 애니메이션
+      window.addEventListener("scroll", function () {
+        const cards = document.querySelectorAll(".theme-card");
+        cards.forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          const isVisible = rect.top < window.innerHeight * 0.8;
+
+          if (isVisible) {
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0)";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
