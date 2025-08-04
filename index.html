@@ -421,6 +421,240 @@
           transform: scale(1);
         }
       }
+
+      /* Modal Styles */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        width: 90%;
+        max-width: 400px;
+        position: relative;
+        animation: slideInUp 0.3s ease;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #999;
+        transition: color 0.3s ease;
+      }
+
+      .modal-close:hover {
+        color: #333;
+      }
+
+      .modal-title {
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .tab-container {
+        display: flex;
+        margin-bottom: 2rem;
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 4px;
+      }
+
+      .tab-button {
+        flex: 1;
+        padding: 0.8rem;
+        border: none;
+        background: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        color: #666;
+      }
+
+      .tab-button.active {
+        background: white;
+        color: #333;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .login-form,
+      .signup-form {
+        display: none;
+      }
+
+      .login-form.active,
+      .signup-form.active {
+        display: block;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: #4ecdc4;
+        box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+      }
+
+      .login-btn-form {
+        width: 100%;
+        background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+        color: white;
+        border: none;
+        padding: 1rem;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+      }
+
+      .login-btn-form:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .divider {
+        text-align: center;
+        margin: 1.5rem 0;
+        position: relative;
+        color: #999;
+      }
+
+      .divider::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: #e0e0e0;
+      }
+
+      .divider span {
+        background: white;
+        padding: 0 1rem;
+      }
+
+      .social-login {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      .kakao-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 1rem;
+        background: #fee500;
+        color: #000;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+
+      .kakao-btn:hover {
+        background: #e6cc00;
+        transform: translateY(-2px);
+      }
+
+      .naver-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 1rem;
+        background: #03c75a;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+
+      .naver-btn:hover {
+        background: #02b351;
+        transform: translateY(-2px);
+      }
+
+      .forgot-password {
+        text-align: center;
+        margin-top: 1rem;
+      }
+
+      .forgot-password a {
+        color: #4ecdc4;
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+
+      .forgot-password a:hover {
+        text-decoration: underline;
+      }
+
+      .checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .checkbox-container input[type="checkbox"] {
+        width: auto;
+        margin: 0;
+      }
+
+      .checkbox-container label {
+        font-size: 0.9rem;
+        color: #666;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -435,7 +669,9 @@
           <a href="./location-search.html">지역별 검색</a>
           <a href="./theme-page.html">테마별 보기</a>
           <a href="./kidszoom_reviews.html">후기 모음</a>
-          <a href="#로그인" class="login-btn">로그인/회원가입</a>
+          <a href="#" class="login-btn" onclick="openLoginModal()"
+            >로그인/회원가입</a
+          >
         </div>
       </nav>
 
@@ -615,7 +851,221 @@
       </footer>
     </div>
 
+    <!-- Login/Signup Modal -->
+    <div class="modal-overlay" id="loginModal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeLoginModal()">&times;</button>
+        <h2 class="modal-title">
+          <span>🧒</span>
+          키즈줌 로그인
+        </h2>
+
+        <div class="tab-container">
+          <button class="tab-button active" onclick="switchTab('login')">
+            로그인
+          </button>
+          <button class="tab-button" onclick="switchTab('signup')">
+            회원가입
+          </button>
+        </div>
+
+        <!-- Login Form -->
+        <form class="login-form active" id="loginForm">
+          <input
+            type="email"
+            class="form-input"
+            placeholder="이메일 주소"
+            required
+          />
+          <input
+            type="password"
+            class="form-input"
+            placeholder="비밀번호"
+            required
+          />
+          <button type="submit" class="login-btn-form">로그인</button>
+
+          <div class="divider">
+            <span>또는</span>
+          </div>
+
+          <div class="social-login">
+            <button type="button" class="kakao-btn" onclick="kakaoLogin()">
+              <span>💬</span>
+              카카오로 간편 로그인
+            </button>
+            <button type="button" class="naver-btn" onclick="naverLogin()">
+              <span>N</span>
+              네이버로 간편 로그인
+            </button>
+          </div>
+
+          <div class="forgot-password">
+            <a href="#" onclick="alert('비밀번호 찾기 기능은 준비중입니다.')"
+              >비밀번호를 잊으셨나요?</a
+            >
+          </div>
+        </form>
+
+        <!-- Signup Form -->
+        <form class="signup-form" id="signupForm">
+          <input type="text" class="form-input" placeholder="이름" required />
+          <input
+            type="email"
+            class="form-input"
+            placeholder="이메일 주소"
+            required
+          />
+          <input
+            type="password"
+            class="form-input"
+            placeholder="비밀번호 (8자 이상)"
+            required
+          />
+          <input
+            type="password"
+            class="form-input"
+            placeholder="비밀번호 확인"
+            required
+          />
+
+          <div class="checkbox-container">
+            <input type="checkbox" id="agreeTerms" required />
+            <label for="agreeTerms"
+              >이용약관 및 개인정보처리방침에 동의합니다</label
+            >
+          </div>
+
+          <button type="submit" class="login-btn-form">회원가입</button>
+
+          <div class="divider">
+            <span>또는</span>
+          </div>
+
+          <div class="social-login">
+            <button type="button" class="kakao-btn" onclick="kakaoSignup()">
+              <span>💬</span>
+              카카오로 간편 회원가입
+            </button>
+            <button type="button" class="naver-btn" onclick="naverSignup()">
+              <span>N</span>
+              네이버로 간편 회원가입
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <script>
+      // Modal 관련 함수들
+      function openLoginModal() {
+        const modal = document.getElementById("loginModal");
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeLoginModal() {
+        const modal = document.getElementById("loginModal");
+        modal.classList.remove("active");
+        document.body.style.overflow = "auto";
+      }
+
+      function switchTab(tab) {
+        const loginForm = document.getElementById("loginForm");
+        const signupForm = document.getElementById("signupForm");
+        const tabButtons = document.querySelectorAll(".tab-button");
+
+        tabButtons.forEach((btn) => btn.classList.remove("active"));
+
+        if (tab === "login") {
+          loginForm.classList.add("active");
+          signupForm.classList.remove("active");
+          document.querySelector(".tab-button").classList.add("active");
+        } else {
+          signupForm.classList.add("active");
+          loginForm.classList.remove("active");
+          document.querySelectorAll(".tab-button")[1].classList.add("active");
+        }
+      }
+
+      // 소셜 로그인 함수들
+      function kakaoLogin() {
+        alert("카카오 로그인 기능을 연동중입니다. 잠시만 기다려주세요!");
+      }
+
+      function naverLogin() {
+        alert("네이버 로그인 기능을 연동중입니다. 잠시만 기다려주세요!");
+      }
+
+      function kakaoSignup() {
+        alert("카카오 회원가입 기능을 연동중입니다. 잠시만 기다려주세요!");
+      }
+
+      function naverSignup() {
+        alert("네이버 회원가입 기능을 연동중입니다. 잠시만 기다려주세요!");
+      }
+
+      // 모달 외부 클릭 시 닫기
+      document
+        .getElementById("loginModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeLoginModal();
+          }
+        });
+
+      // ESC 키로 모달 닫기
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeLoginModal();
+        }
+      });
+
+      // 로그인 폼 제출
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const email = this.querySelector('input[type="email"]').value;
+          const password = this.querySelector('input[type="password"]').value;
+
+          if (email && password) {
+            alert("로그인 기능을 구현중입니다.\n입력된 정보: " + email);
+            closeLoginModal();
+          }
+        });
+
+      // 회원가입 폼 제출
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const name = this.querySelectorAll("input")[0].value;
+          const email = this.querySelectorAll("input")[1].value;
+          const password = this.querySelectorAll("input")[2].value;
+          const confirmPassword = this.querySelectorAll("input")[3].value;
+          const agreeTerms = this.querySelector("#agreeTerms").checked;
+
+          if (password !== confirmPassword) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return;
+          }
+
+          if (!agreeTerms) {
+            alert("이용약관에 동의해주세요.");
+            return;
+          }
+
+          if (name && email && password) {
+            alert(
+              "회원가입 기능을 구현중입니다.\n입력된 정보: " +
+                name +
+                ", " +
+                email
+            );
+            closeLoginModal();
+          }
+        });
       // 카드 애니메이션 효과
       const observerOptions = {
         threshold: 0.1,

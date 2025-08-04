@@ -14,7 +14,8 @@
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         line-height: 1.6;
-        background: #f8f9fa;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
       }
 
       .container {
@@ -36,6 +37,7 @@
       }
 
       .logo {
+        text-decoration: none;
         font-size: 1.8rem;
         font-weight: bold;
         color: white;
@@ -43,6 +45,27 @@
         align-items: center;
         gap: 0.5rem;
         cursor: pointer;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
       }
 
       .breadcrumb {
@@ -583,16 +606,15 @@
     <div class="container">
       <!-- Navigation -->
       <nav class="navbar">
-        <div class="logo" onclick="goHome()">
+        <a href="./" class="logo">
           <span>🧒</span>
           <span>키즈줌</span>
-        </div>
-        <div class="breadcrumb">
-          <a href="#" onclick="goHome()">홈</a>
-          <span>></span>
-          <a href="#">서울</a>
-          <span>></span>
-          <span>키즈파크 강남점</span>
+        </a>
+        <div class="nav-links">
+          <a href="./location-search.html">지역별 검색</a>
+          <a href="./theme-page.html">테마별 보기</a>
+          <a href="./kidszoom_reviews.html">후기 모음</a>
+          <a href="#로그인" class="login-btn">로그인/회원가입</a>
         </div>
       </nav>
 
